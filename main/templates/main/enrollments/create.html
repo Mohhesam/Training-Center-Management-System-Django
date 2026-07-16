@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Enroll Student</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .navbar{
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        .card{
+            border:none;
+            border-radius:18px;
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .section-title{
+            font-weight:700;
+            color:#212529;
+        }
+
+        .form-label{
+            font-weight:600;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius:10px;
+            padding:12px;
+        }
+
+        .btn{
+            border-radius:10px;
+            padding:12px;
+            font-weight:600;
+        }
+
+        .info-box{
+            background:#f8f9fa;
+            border-radius:12px;
+            padding:18px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+            Training Center
+
+        </a>
+
+        <a href="{% url 'home' %}" class="btn btn-outline-light">
+
+            Back to Courses
+
+        </a>
+
+    </div>
+
+</nav>
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card">
+
+                <div class="card-body p-5">
+
+                    <h2 class="section-title mb-4">
+
+                        <i class="bi bi-person-plus-fill text-primary"></i>
+
+                        Student Enrollment
+
+                    </h2>
+
+                    <p class="text-muted mb-5">
+
+                        Select a student and assign them to an available course schedule.
+
+                    </p>
+
+                    <form method="post">
+                        
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Student
+
+                            </label>
+
+                            {{ form.student }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Course Schedule
+
+                            </label>
+
+                            {{ form.schedule }}
+
+                        </div>
+
+                        <div class="info-box mb-4">
+
+                            <h5 class="mb-3">
+
+                                Enrollment Information
+
+                            </h5>
+
+                            <ul class="mb-0">
+
+                                <li>Students can only enroll if seats are available.</li>
+
+                                <li>Full courses cannot accept new enrollments.</li>
+
+                                <li>The enrollment date is recorded automatically.</li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Enroll Student
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

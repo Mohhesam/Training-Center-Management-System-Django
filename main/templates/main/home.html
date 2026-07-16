@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Training Center</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-dark bg-dark shadow">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold fs-3">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+            Training Center
+
+        <div class="d-flex gap-2">
+
+    <a href="{% url 'student_create' %}"
+       class="btn btn-success">
+
+        <i class="bi bi-person-plus-fill"></i>
+
+        Add Student
+
+    </a>
+
+    <a href="{% url 'admin_dashboard' %}"
+       class="btn btn-outline-light">
+
+        <i class="bi bi-speedometer2"></i>
+
+        Admin Dashboard
+
+    </a>
+
+</div>
+
+    </div>
+
+</nav>
+
+<div class="container py-5">
+
+    <!-- Hero -->
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+
+            Available Courses
+
+        </h1>
+
+        <p class="text-muted">
+
+            Browse our available courses and enroll today.
+
+        </p>
+
+    </div>
+
+    <!-- Search (UI only) -->
+
+    <div class="row mb-5">
+
+        <div class="col-md-8">
+
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Search courses...">
+
+        </div>
+
+        <div class="col-md-4">
+
+            <select class="form-select">
+
+                <option>All Courses</option>
+                <option>Upcoming</option>
+                <option>Running</option>
+                <option>Finished</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <!-- Courses -->
+
+    <div class="row g-4">
+
+        {% for schedule in schedules %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h4 class="fw-bold">
+
+                            <i class="bi bi-book-fill text-primary"></i>
+
+                            {{ schedule.course.title }}
+
+                        </h4>
+
+                        {% if schedule.status == "Running" %}
+
+                            <span class="badge bg-success">
+                                Running
+                            </span>
+
+                        {% elif schedule.status == "Upcoming" %}
+
+                            <span class="badge bg-warning text-dark">
+                                Upcoming
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                Finished
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <hr>
+
+                    <p class="mb-2">
+    <i class="bi bi-person-workspace text-primary"></i>
+
+    {% if schedule.instructor %}
+        {{ schedule.instructor.full_name }}
+    {% else %}
+        No Instructor Yet
+    {% endif %}
+
+</p>
+
+                    <p class="mb-2">
+
+                        <i class="bi bi-door-open"></i>
+
+                        Room {{ schedule.room_number }}
+
+                    </p>
+
+                    <p class="mb-2">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        {{ schedule.start_date }}
+
+                        -
+
+                        {{ schedule.end_date }}
+
+                    </p>
+
+                    <p class="mb-2">
+
+                        <i class="bi bi-people-fill"></i>
+
+                        {{ schedule.enrolled_count }}
+
+                        /
+
+                        {{ schedule.capacity }}
+
+                        Students
+
+                    </p>
+
+                    {% if schedule.is_full %}
+
+                        <div class="progress mb-2">
+
+                            <div
+                                class="progress-bar bg-danger"
+                                style="width:100%">
+
+                            </div>
+
+                        </div>
+
+                        <small class="text-danger fw-bold">
+
+                            Course Full
+
+                        </small>
+
+                    {% else %}
+
+                        {% widthratio schedule.enrolled_count schedule.capacity 100 as progress %}
+
+<div class="progress mb-2">
+    <div
+        class="progress-bar bg-primary"
+        role="progressbar"
+        style="width: {{ progress }}%;"
+        aria-valuenow="{{ progress }}"
+        aria-valuemin="0"
+        aria-valuemax="100">
+    </div>
+</div>
+
+                        <small class="text-success">
+
+                            {{ schedule.remaining_seats }}
+
+                            Seats Available
+
+                        </small>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <a href="{% url 'schedule_details' schedule.id %}"
+                       class="btn btn-primary w-100">
+
+                        <i class="bi bi-eye-fill"></i>
+
+                        View Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No courses available yet.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-4 mt-5">
+
+    <small>
+
+        Training Center Management System
+
+        <br>
+
+        Built with Django & Bootstrap
+
+    </small>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
